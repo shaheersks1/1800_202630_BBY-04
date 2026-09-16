@@ -72,6 +72,8 @@ elmo-hikes/
 
 
 
+
+
 ## Acknowledgments
 
 - Trail data and images are for demonstration purposes only.
