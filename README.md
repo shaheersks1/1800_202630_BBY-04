@@ -76,7 +76,7 @@ BCIT CST Student with a passion for outdoor adventures and user-friendly applica
 shaheer and richard
 BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
 
----Richard - BCIT CST student who loves existing and living. Fun fact: I really love... Jesus.
+--Richard - BCIT CST student who loves existing and living. Fun fact: I really love... Jesus.
 --Jordan - BCIT CST student, the goat. Fun fact: First language is French, ohhooho!
 
 
