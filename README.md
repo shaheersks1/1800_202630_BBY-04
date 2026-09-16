@@ -66,10 +66,18 @@ elmo-hikes/
 
 
 ## Contributors
-- **Your Name** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
-- **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
+- **Shaheer Khan** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Shaheer loves math.
+- **Jordan L** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
+- **Richard**
+- **Your Name** - 
+-my name is jordan lum i like to play minecraft and ride my scooter
+BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
+- **Teammate Name** - 
+shaheer and richard
+BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
 
----
+---Richard - BCIT CST student who loves existing and living. Fun fact: I really love... Jesus.
+--Jordan - BCIT CST student, the goat. Fun fact: First language is French, ohhooho!
 
 
 ## Acknowledgments
