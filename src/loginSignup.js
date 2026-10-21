@@ -15,7 +15,7 @@ import {
     authErrorMessage,
 } from './authentication.js';
 
-
+console.log("loginSignup.js loaded");
 // --- Login and Signup Page ---
 // Handles toggling between Login/Signup views and form submits
 // using plain DOM APIs for simplicity and maintainability.
