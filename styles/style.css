@@ -1,1 +1,62 @@
+:root {
+    --dark: #1e1e1e;
+    --cream: #fffefa;
+    --orange: orange;
+    --orange-light: rgb(255, 199, 96);
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 10px 20px rgba(0, 0, 0, 0.12);
+}
 
+.grey {
+    background-color: var(--dark);
+    padding-bottom: 5%;
+    text-align: center;
+    display: flow-root;
+}
+
+#project-name {
+    color: var(--cream);
+}
+
+.sub-heading-text {
+    color: var(--cream);
+    font-size: 130%;
+    margin-bottom: 7%;
+    margin-top: 4%;
+}
+
+.button-main {
+    text-align: center;
+}
+
+.container {
+    background-color: var(--cream);
+}
+
+#sched-butt,
+#lsup {
+    background-color: var(--orange);
+    border: 2px solid var(--orange);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+#sched-butt {
+    font-size: 220%;
+    box-shadow: var(--shadow);
+}
+
+#sched-butt:hover {
+    background-color: transparent;
+    color: var(--orange);
+    box-shadow: 0 4px 6px rgba(196, 196, 196, 0.12), 0 15px 25px rgba(196, 196, 196, 0.12);
+}
+
+#lsup:hover {
+    background-color: var(--orange-light);
+    border-color: var(--orange-light);
+    box-shadow: var(--shadow);
+}
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: orange !important;
+}
