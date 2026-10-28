@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My BCIT Project</title>
+    <meta name="comp1800 template" content="My 1800 App">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Web Components for shared navbar and footer layout -->
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-footer.js"></script>
+</head>
+
+<body>
+    <!------------------------------>
+    <!-- Your HTML Layout go here -->
+    <!------------------------------>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Organize Your Life.</a>
+
+            <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link active" href="#">Account</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Settings</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Help</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+        
+        
+    <div class="main">
+        <p id="paragraph_one">Koseki Bijou (古石ビジュ―), commonly known as Biboo, 
+            is a female English-speaking Virtual YouTuber associated with hololive, 
+            debuting in 2023 as part of "hololive English -Advent-" the branch's third generation alongside Shiori Novella, 
+            Nerissa Ravencroft, Fuwawa Abyssgard and Mococo Abyssgard. Her unit's name was changed to "hololive -Advent-" 
+            after every branch was merged into hololive in September 2026.
+        </p>
+        <form id="form">
+            <input type="text" placeholder="TEXT_PLACEHOLDER">
+        </form>
+
+        <div class="button-main">
+            <button
+                onclick="window.location.href='main.html'"
+                class="btn btn-primary btn-lg" id="sched-butt"
+                type="button">
+                Confirm
+            </button>
+        </div>
+    </div>
+    
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+        <a class="navbar-brand" href="#">Fixed bottom</a>
+    </nav>
+
+    <nav class="navbar fixed-bottom bg-primary border-top">
+        <div class="container-fluid justify-content-around">
+            
+            <div class="dropdown">
+                <a class="nav-link text-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-list d-block fs-5"></i><small>Options</small>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">My Account</a></li>
+                    <li><a class="dropdown-item" href="#">My Hikes</a></li>
+                </ul>
+            </div>
+            <a class="nav-link text-center" href="#">
+                <i class="bi bi-bar-chart-fill d-block fs-5"></i><small>Progress</small>
+            </a>
+            
+            <a class="nav-link text-center active" aria-current="page" href="#">
+                <i class="bi bi-house-fill d-block fs-5"></i><small>Home</small>
+            </a>
+
+            <a class="nav-link text-center" href="#">
+                <i class="bi bi-calendar-fill d-block fs-5"></i><small>Schedule</small>
+            </a>
+
+            <a class="nav-link text-center" href="#">
+                <i class="bi bi-person-fill d-block fs-5"></i><small>Profile</small>
+            </a>
+        </div>
+    </nav>
+    
+    <!---------------------------------------------->
+    <!-- Your own JavaScript scripts go here      -->
+    <!---------------------------------------------->
+
+    <script type="module" src="/src/app.js"></script>
+
+</body>
+
+</html>
