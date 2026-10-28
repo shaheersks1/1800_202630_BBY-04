@@ -24,9 +24,6 @@
     margin-top: 4%;
 }
 
-.button-main {
-    text-align: center;
-}
 
 .container {
     background-color: var(--cream);
@@ -59,4 +56,28 @@
 .bg-primary {
     --bs-bg-opacity: 1;
     background-color: orange !important;
+}
+body {
+    background-color: gray;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 33vw 33vw 33vw;
+    grid-template-rows: 33vh 33vh 33vh;
+}
+.button-main {
+    text-align: center;
+    grid-row: 3;
+    grid-column: 2;
+}
+#paragraph_one {
+    font-size: 35px;
+    grid-row: 1 / span 3;
+    grid-column: 2;
+}
+#form {
+    font-size: 35px;
+    grid-row: 2 / 3;
+    grid-column: 2;
 }
