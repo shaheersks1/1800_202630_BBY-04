@@ -65,6 +65,9 @@ body {
     display: grid;
     grid-template-columns: 33vw 33vw 33vw;
     grid-template-rows: 33vh 33vh 33vh;
+    background-image: url(../images/clouds.jpg);
+    background-size: 300vh;
+    color: black;
 }
 .button-main {
     text-align: center;
@@ -72,12 +75,44 @@ body {
     grid-column: 2;
 }
 #paragraph_one {
-    font-size: 35px;
+    font-size: 120px;
     grid-row: 1 / span 3;
     grid-column: 2;
 }
 #form {
-    font-size: 35px;
-    grid-row: 2 / 3;
+    font-size: 50px;
+    grid-row: 2;
     grid-column: 2;
+}
+.CSV_f {
+    font-size: 50px;
+    grid-row: 1;
+    grid-column: 2;
+}
+#student {
+    grid-row: 3;
+    grid-column: 2;
+    font-size: 50px;
+    transform: translateY(30vh);
+}
+#continue {
+    grid-row: 2;
+    grid-column: 2;
+    transform: translateY(-15vh);
+}
+#sets {
+    font-size: 30px;
+    grid-row: 3;
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 10vw 10vw 10vw;
+}
+#setA {
+    grid-column: 1;
+}
+#setB {
+    grid-column: 2;
+}
+#setC {
+    grid-column: 3;
 }
