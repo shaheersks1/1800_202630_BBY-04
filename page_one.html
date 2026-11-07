@@ -50,7 +50,7 @@
     <div class="main">
         <div class="CSV_f">
             <label for="myfile">Select a PNG, CSV or JSON file of your schedule:</label>
-            <input type="file" id="myfile" name="myfile">
+            <input type="file" id="myfile" name="myfile" accept=".csv">
         </div>
         <div id="continue">
             <button onclick="window.location.href='page_goal.html'"
@@ -101,6 +101,7 @@
     <!-- Your own JavaScript scripts go here      -->
     <!---------------------------------------------->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script type="module" src="/src/app.js"></script>
     
 
