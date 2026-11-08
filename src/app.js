@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
-
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "/src/firebaseConfig.js";
 //--------------------------------------------------------------
 // If you have custom global styles, import them as well:
 //--------------------------------------------------------------
@@ -23,21 +24,21 @@ const new_file = document.getElementById("myfile")
 new_file.addEventListener("change", (p) => {
   console.log("AHHHHHHHHHHHH")
   const file = p.target.files[0];
-
   if (file) {
     Papa.parse(file, {
       header: true, // Converts rows into objects using the first row as keys
       skipEmptyLines: true,
       complete: function (results) {
-        console.log("Parsed Data:", results.data);
-        updateDoc(doc(db, "users", "0iUxmlf0w2Wq4QYKuSZwqYR5apU2"), { file: results.data })
+        onAuthStateChanged(auth, (user) => {
+          updateDoc(doc(db, "users", user.uid), { file: results.data })
+          console.log("Parsed Data:", results.data);
+        })
       },
       error: function (error) {
         console.error("Error parsing CSV:", error.message);
       }
     });
   }
-  // updateDoc(doc(db, "users", "0iUxmlf0w2Wq4QYKuSZwqYR5apU2"), { file: results.data })
 })
 
 
