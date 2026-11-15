@@ -9,5 +9,14 @@
   },
   "devDependencies": {
     "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.2",
+    "express": "^5.2.1",
+    "firebase": "^13.0.0",
+    "openai": "^7.51.0"
   }
 }
