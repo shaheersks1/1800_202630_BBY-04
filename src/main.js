@@ -24,6 +24,10 @@ function showName() {
         }
     });
 }
+document.getElementById("logoutBtn")?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    await logoutUser();
+});
 // document.addEventListener('DOMContentLoaded', sayHello);
 showName();
 sayHello()
