@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
-
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "/src/firebaseConfig.js";
 //--------------------------------------------------------------
@@ -16,9 +15,6 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 // This is an example function. Replace it with your own logic.
 function sayHello() {
-  // TODO: implement your logic here
-}
-document.addEventListener('DOMContentLoaded', sayHello);
   console.log("project up and running")
   // TODO: implement your logic here
 }
