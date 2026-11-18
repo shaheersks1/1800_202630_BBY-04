@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Schedulr - Login / Sign Up</title>
+    <meta name="comp1800 template" content="Schedulr App">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Web Components for shared navbar and footer layout -->
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-footer.js"></script>
+    <link rel="stylesheet" href="/styles/styleLogin.css">
+
+    <style>
+        /* Override global white container rule */
+        main.container {
+            background-color: transparent !important;
+        }
+        /* High-contrast input fields & clean placeholders */
+        .schedulr-input {
+            background-color: #2a2a2a !important;
+            color: #ffffff !important;
+            border: 1px solid #444444 !important;
+        }
+        .schedulr-input::placeholder {
+            color: #888888 !important;
+            opacity: 1;
+        }
+        .schedulr-input:focus {
+            border-color: #f49d0c !important;
+            box-shadow: 0 0 0 0.2rem rgba(244, 157, 12, 0.25) !important;
+        }
+        .schedulr-input-icon {
+            background-color: #242424 !important;
+            border: 1px solid #444444 !important;
+            border-right: none !important;
+            color: #f49d0c !important;
+        }
+        /* Force circular help button and prevent full-width stretching */
+        #helpButton.help-button {
+            position: fixed !important;
+            bottom: 25px !important;
+            right: 25px !important;
+            width: 48px !important;
+            height: 48px !important;
+            border-radius: 50% !important;
+            background-color: #1a1a1a !important;
+            border: 2px solid #f49d0c !important;
+            color: #f49d0c !important;
+            font-size: 1.2rem !important;
+            font-weight: bold !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+            z-index: 1050 !important;
+            cursor: pointer !important;
+        }
+    </style>
+</head>
+
+<body class="text-light d-flex flex-column min-vh-100 m-0" style="background-color: #121212 !important;">
+
+    <!-- Sleek Minimalist Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark px-4 py-3 border-bottom border-secondary" style="background-color: #1a1a1a !important;">
+        <div class="container-fluid" style="background-color: transparent !important;">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center" href="index.html">
+                <i class="bi bi-calendar-check-fill me-2 fs-4" style="color: #f49d0c;"></i>Schedulr<span style="color: #f49d0c;">.</span>
+            </a>
+            <div class="ms-auto">
+                <a href="index.html" class="btn btn-sm px-4 rounded-pill fw-semibold shadow-sm" style="background-color: transparent; border: 2px solid #f49d0c; color: #f49d0c;">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Card Container -->
+    <main class="container my-auto d-flex justify-content-center align-items-center py-5">
+        <div class="card p-4 p-md-5 shadow-lg border-0 w-100" style="max-width: 440px; background-color: #1E1E1E; border-radius: 16px;">
+            
+            <!-- Alerts -->
+            <div id="authAlert" class="alert alert-danger d-none py-2 mb-4 text-center rounded-3 shadow-sm" role="alert" style="font-size: 0.9rem;"></div>
+
+            <!-- Login View -->
+            <div id="loginView">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-white mb-1">Welcome Back</h3>
+                    <p style="font-size: 0.9rem; color: #b0b0b0;">Log in to manage your smart schedule</p>
+                </div>
+                <form id="loginForm" novalidate>
+                    <div class="mb-3 text-start">
+                        <label for="loginEmail" class="form-label fw-semibold mb-1" style="color: #e0e0e0; font-size: 0.85rem;">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text schedulr-input-icon"><i class="bi bi-envelope-fill"></i></span>
+                            <input type="email" id="loginEmail" class="form-control schedulr-input py-2" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+                    <div class="mb-4 text-start">
+                        <label for="loginPassword" class="form-label fw-semibold mb-1" style="color: #e0e0e0; font-size: 0.85rem;">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text schedulr-input-icon"><i class="bi bi-lock-fill"></i></span>
+                            <input type="password" id="loginPassword" class="form-control schedulr-input py-2" placeholder="Enter your password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn w-100 fw-bold py-3 rounded-pill shadow d-inline-flex align-items-center justify-content-center" id="loginButton" style="background-color: #f49d0c; color: #121212; border: none;">
+                        Login <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </form>
+                <div class="text-center mt-4">
+                    <small style="color: #b0b0b0;">
+                        Don’t have an account? <br>
+                        <a href="#" id="toSignup" class="fw-bold text-decoration-none" style="color: #f49d0c;">Sign up</a>
+                    </small>
+                </div>
+            </div>
+
+            <!-- Signup View -->
+            <div id="signupView" class="d-none">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-white mb-1">Create Account</h3>
+                    <p style="font-size: 0.9rem; color: #b0b0b0;">Start your journey with Schedulr</p>
+                </div>
+                <form id="signupForm" novalidate>
+                    <div class="mb-3 text-start">
+                        <label for="signupName" class="form-label fw-semibold mb-1" style="color: #e0e0e0; font-size: 0.85rem;">Full Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text schedulr-input-icon"><i class="bi bi-person-fill"></i></span>
+                            <input type="text" id="signupName" class="form-control schedulr-input py-2" placeholder="First and Last Name" aria-label="Full name" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="signupEmail" class="form-label fw-semibold mb-1" style="color: #e0e0e0; font-size: 0.85rem;">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text schedulr-input-icon"><i class="bi bi-envelope-fill"></i></span>
+                            <input type="email" id="signupEmail" class="form-control schedulr-input py-2" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+                    <div class="mb-4 text-start">
+                        <label for="signupPassword" class="form-label fw-semibold mb-1" style="color: #e0e0e0; font-size: 0.85rem;">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text schedulr-input-icon"><i class="bi bi-lock-fill"></i></span>
+                            <input type="password" id="signupPassword" class="form-control schedulr-input py-2" placeholder="Create a password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn w-100 fw-bold py-3 rounded-pill shadow d-inline-flex align-items-center justify-content-center" style="background-color: #f49d0c; color: #121212; border: none;">
+                        Create Account <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </form>
+                <div class="text-center mt-4">
+                    <small style="color: #b0b0b0;">
+                        Already have an account? 
+                        <a href="#" id="toLogin" class="fw-bold text-decoration-none" style="color: #f49d0c;">Login</a>
+                    </small>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Circular Help Button (Protected from full-width CSS overrides) -->
+    <button class="help-button" id="helpButton">?</button>
+
+    <!-- Clean Footer -->
+    <footer class="text-center py-3 border-top border-secondary mt-auto" style="background-color: #1a1a1a !important; color: #888888; font-size: 0.8rem;">
+        <div class="container" style="background-color: transparent !important;">
+            <p class="mb-0">&copy; 2026 Schedulr &bull; BCIT COMP 1800 Project</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Scripts -->
+    <script type="module" src="/src/app.js"></script>
+    <script type="module" src="/src/firebaseConfig.js"></script>
+    <script type="module" src="/src/authentication.js"></script>
+    <script type="module" src="/src/loginSignup.js"></script>
+    <script type="module" src="/src/help.js"></script>
+</body>
+
+</html>
