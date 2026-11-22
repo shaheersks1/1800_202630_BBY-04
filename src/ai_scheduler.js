@@ -17,11 +17,27 @@ const userGreeting = document.getElementById("user-greeting");
 const logoutBtn = document.getElementById("logout-btn");
 
 const generateBtn = document.getElementById("generate-btn");
-const goalInput = document.getElementById("goal-input");
+const goalInputZ = document.getElementById("goal-input");
+const byDate = document.getElementById("by-date");
+
 const fileUpload = document.getElementById("file-upload");
 const scheduleContainer = document.getElementById("scheduleContainer");
 
 let currentUser = null;
+
+// Helper to calculate progress counts from a schedule array
+function calculateProgress(schedule) {
+  const goalTasks = schedule.filter(item => {
+    const cat = (item.category || "").toLowerCase();
+    return !cat.includes("school") && !cat.includes("work");
+  });
+  const completedCount = goalTasks.filter(item => item.completed).length;
+
+  return {
+    completed: completedCount,
+    total: goalTasks.length
+  };
+}
 
 // Save checkbox progress back to Firestore
 async function saveTaskProgress(updatedSchedule) {
@@ -29,7 +45,10 @@ async function saveTaskProgress(updatedSchedule) {
   try {
     await setDoc(
       doc(db, "users", currentUser.uid),
-      { schedule: updatedSchedule },
+      { 
+        schedule: updatedSchedule,
+        progress: calculateProgress(updatedSchedule)
+      },
       { merge: true }
     );
   } catch (err) {
@@ -53,7 +72,7 @@ onAuthReady(async (user) => {
     const userSnap = await getDoc(doc(db, "users", user.uid));
     if (userSnap.exists() && userSnap.data().schedule) {
       const data = userSnap.data();
-      goalInput.value = data.goal || "";
+      goalInputZ.value = data.goal || "";
       renderScheduleUI(
         { goal: data.goal || "Saved Schedule", schedule: data.schedule },
         scheduleContainer,
@@ -95,8 +114,8 @@ async function generateWithRetry(model, promptParts, retries = 5, baseDelay = 30
       if (i === retries - 1 || !isOverloaded) throw error;
       
       const waitTime = baseDelay * Math.pow(2, i);
-      console.warn("Server busy. Retrying in " + (waitTime/1000) + "s...");
-      scheduleContainer.innerHTML = "<p>Server is crowded. Retrying in " + (waitTime/1000) + " seconds...</p>";
+      console.warn("Server busy. Retrying in " + (waitTime / 1000) + "s...");
+      scheduleContainer.innerHTML = "<p>Server is crowded. Retrying in " + (waitTime / 1000) + " seconds...</p>";
       await new Promise(resolve => setTimeout(resolve, waitTime));
     }
   }
@@ -110,13 +129,16 @@ generateBtn.addEventListener("click", async (e) => {
     return;
   }
   
-  const userGoal = goalInput.value.trim();
+  const goalText = goalInputZ.value.trim();
+  const targetDate = byDate.value.trim();
   const file = fileUpload.files[0];
-  
-  if (!file || !userGoal) {
+
+  if (!file || !goalText) {
     scheduleContainer.innerHTML = "<p style='color: red;'>Error: Please provide a goal and upload a file.</p>";
     return;
   }
+
+const userGoal = targetDate ? `${goalText} (Target Date: ${targetDate})` : goalText;
 
   generateBtn.disabled = true;
   scheduleContainer.innerHTML = "<p>Building and saving your optimized calendar...</p>";
@@ -151,16 +173,17 @@ generateBtn.addEventListener("click", async (e) => {
       completed: false
     }));
 
-    // Write goal + schedule into users/{uid} in Firestore
+    // Write goal + schedule + initial progress into users/{uid} in Firestore
     await setDoc(
       doc(db, "users", currentUser.uid),
       {
         goal: parsedData.goal,
-        schedule: parsedData.schedule
+        schedule: parsedData.schedule,
+        progress: calculateProgress(parsedData.schedule)
       },
       { merge: true }
     );
-    console.log("Schedule saved to Firestore for UID:", currentUser.uid);
+    console.log("Schedule and progress saved to Firestore for UID:", currentUser.uid);
     
     renderScheduleUI(parsedData, scheduleContainer, saveTaskProgress);
 
