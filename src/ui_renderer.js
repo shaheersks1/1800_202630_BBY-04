@@ -2,6 +2,7 @@ export function renderScheduleUI(jsonData, containerElement, onSaveProgress = nu
   let goalTasksTotal = 0;
   let goalTasksCompleted = 0;
 
+
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const calendarData = {
     Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
@@ -58,7 +59,7 @@ export function renderScheduleUI(jsonData, containerElement, onSaveProgress = nu
     document.getElementById('goal-progress-text').innerText = `${goalTasksCompleted} / ${goalTasksTotal} goal tasks completed`;
   };
 
-  updateProgress();
+  updateProgress(); 
 
   const allEventElements = [];
 

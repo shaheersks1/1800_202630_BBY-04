@@ -10,8 +10,11 @@
       max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1rem;
-      color: #333;
-      background: #fafafa;
+      color: #f5f5f7;
+      background: #000000;
+    }
+    h1, h2 {
+      color: #ffffff;
     }
     .top-bar {
       display: flex;
@@ -24,51 +27,83 @@
       gap: 10px;
       margin-bottom: 2rem;
       flex-wrap: wrap;
-      background: #fff;
+      background: #121215;
       padding: 1.5rem;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid #26262c;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
     input, button {
       padding: 10px 14px;
-      border: 1px solid #ddd;
+      border: 1px solid #2c2c34;
       border-radius: 6px;
       font-size: 1rem;
     }
+    input {
+      background: #1a1a1f;
+      color: #f5f5f7;
+    }
+    input::placeholder {
+      color: #777;
+    }
+    input:focus {
+      outline: none;
+      border-color: #f27500;
+    }
+    input[type="file"]::file-selector-button {
+      background: #24242b;
+      color: #ffcb6a;
+      border: 1px solid #33333d;
+      padding: 6px 12px;
+      border-radius: 4px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
     button {
-      background: #007bff;
+      background: #f27500;
       color: white;
       border: none;
       cursor: pointer;
       font-weight: bold;
     }
-    button:hover { background: #0056b3; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
+    button:hover { background: #ff9500; }
+    button:disabled { background: #2c2c34; color: #666; cursor: not-allowed; }
+
+    a {
+      color: #ffcb6a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      color: #f27500;
+      text-decoration: underline;
+    }
     
     /* Header & Progress Bar */
     .schedule-header { margin-bottom: 1.5rem; }
     .progress-container {
-      background: #fff;
+      background: #121215;
       padding: 1.5rem;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid #26262c;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
       margin-top: 1rem;
     }
     .progress-bar-bg {
       width: 100%;
       height: 12px;
-      background: #e9ecef;
+      background: #24242b;
       border-radius: 10px;
       overflow: hidden;
       margin-bottom: 0.5rem;
     }
     .progress-bar-fill {
       height: 100%;
-      background: #28a745;
+      background: #f27500;
       width: 0%;
       transition: width 0.4s ease;
     }
-    #goal-progress-text { margin: 0; font-size: 0.9rem; color: #666; font-weight: 500; }
+    #goal-progress-text { margin: 0; font-size: 0.9rem; color: #a0a0aa; font-weight: 500; }
 
     /* Filters */
     .filter-container {
@@ -77,14 +112,18 @@
       margin-bottom: 1.5rem;
     }
     .filter-btn {
-      background: #fff;
-      color: #555;
-      border: 1px solid #ddd;
+      background: #121215;
+      color: #b0b0ba;
+      border: 1px solid #2c2c34;
+    }
+    .filter-btn:hover {
+      background: #1e1e24;
+      color: #ffffff;
     }
     .filter-btn.active {
-      background: #343a40;
-      color: #fff;
-      border-color: #343a40;
+      background: #f27500;
+      color: #ffffff;
+      border-color: #f27500;
     }
 
     /* Weekly Calendar Layout */
@@ -97,7 +136,7 @@
     .calendar-col {
       flex: 1;
       min-width: 150px;
-      background: #f4f5f7;
+      background: #121215;
       border-radius: 8px;
       display: flex;
       flex-direction: column;
@@ -106,9 +145,10 @@
       text-align: center;
       padding: 12px 10px;
       font-weight: bold;
-      background: #e9ecef;
+      color: #ffcb6a;
+      background: #1c1c21;
       border-radius: 8px 8px 0 0;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #2a2a32;
     }
     .calendar-events {
       padding: 10px;
@@ -124,70 +164,74 @@
       border-radius: 6px;
       font-size: 0.9rem;
       border-left: 4px solid;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       position: relative;
     }
     .time-label {
       font-size: 0.8rem;
       font-weight: 700;
-      color: #444;
+      color: #ffcb6a;
       display: block;
       margin-bottom: 4px;
     }
-    .task-desc { margin: 0 0 6px 0; line-height: 1.3; }
+    .task-desc { margin: 0 0 6px 0; line-height: 1.3; color: #f5f5f7; }
     .cat-label {
       font-size: 0.7rem;
       text-transform: uppercase;
-      color: #666;
-      background: rgba(0,0,0,0.05);
+      color: #b0b0ba;
+      background: rgba(255,255,255,0.08);
       padding: 2px 6px;
       border-radius: 4px;
     }
 
     /* Static Events (School/Work) */
     .cal-event.static {
-      background: #fff;
-      border-left-color: #6c757d;
+      background: #1c1c21;
+      border-left-color: #7d776c;
+    }
+    .cal-event.static .time-label {
+      color: #a0a0aa;
     }
 
     /* Interactive Events (Goal Tasks) */
     .cal-event.interactive {
-      background: #e7f1ff;
-      border-left-color: #007bff;
+      background: #24170a;
+      border-left-color: #f79000;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .cal-event.interactive:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .cal-event.interactive:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(242,117,0,0.2); }
     .cal-event.interactive::after {
       content: '○';
       position: absolute;
       top: 10px;
       right: 10px;
       font-size: 1.1rem;
-      color: #007bff;
+      color: #ffb700;
     }
     
     /* Interactive Completed State */
     .cal-event.interactive.completed {
-      background: #e8f5e9;
+      background: #102416;
       border-left-color: #28a745;
       opacity: 0.7;
     }
-    .cal-event.interactive.completed .task-desc { text-decoration: line-through; color: #666; }
+    .cal-event.interactive.completed .task-desc { text-decoration: line-through; color: #888; }
+    .cal-event.interactive.completed .time-label { color: #28a745; }
     .cal-event.interactive.completed::after { content: '✓'; color: #28a745; }
   </style>
 </head>
 <body>
-  <div id="auth-loading" style="text-align: center; margin-top: 4rem;">
+  <div id="auth-loading" style="text-align: center; margin-top: 4rem; color: #a0a0aa;">
     <p>Loading your account...</p>
   </div>
 
   <div id="app-content" style="display: none;">
     <div class="top-bar">
-      <span id="user-greeting" style="font-weight: 600; color: #555;"></span>
+      <span id="user-greeting" style="font-weight: 600; color: #a0a0aa;"></span>
       <div style="display: flex; gap: 10px;">
-        <button onclick="window.location.href='main.html'" style="background: #6c757d;">Home</button>
-        <button id="logout-btn" style="background: #dc3545;">Logout</button>
+        <button onclick="window.location.href='main.html'" style="background: #f27500;">Home</button>
+        <button id="logout-btn" style="background: #ffcb6a; color: #000000;">Logout</button>
       </div>
     </div>
 
@@ -196,11 +240,13 @@
     <div class="controls">
       <input type="file" id="file-upload" accept=".png,.csv,.json" title="Select a PNG, CSV, or JSON file">
       <input type="text" id="goal-input" placeholder="E.g., Train for 20km run" style="flex: 1;">
+      <input type="text" id="by-date" placeholder="By what date?" value="by: ">
       <button id="generate-btn">Generate Schedule</button>
     </div>
+    <a href="progress.html">Check Progress</a>
 
     <div id="scheduleContainer">
-      <p style="color: #666;">Upload your schedule and set a goal to begin.</p>
+      <p style="color: #888;">Upload your schedule and set a goal to begin.</p>
     </div>
   </div>
 
