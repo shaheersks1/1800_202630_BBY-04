@@ -121,6 +121,35 @@
             color: #777780;
             opacity: 0.8;
         }
+
+        #cancelBtn {
+            background-color: transparent;
+            color: #b5b5be;
+            border: 1px solid #44444c;
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-weight: 600;
+        }
+
+        #cancelBtn:hover {
+            background-color: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        #logoutBtn {
+            background-color: transparent;
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.45);
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-weight: 600;
+        }
+
+        #logoutBtn:hover {
+            background-color: rgba(255, 107, 107, 0.14);
+            color: #ff8787;
+            border-color: #ff6b6b;
+        }
     </style>
 </head>
 
@@ -174,12 +203,21 @@
                         <textarea id="bioInput" class="form-control schedulr-field" rows="3" placeholder="Share a quick note about your routine or goals..." disabled></textarea>
                     </div>
 
-                    <div class="d-flex gap-2 flex-wrap">
-                        <button type="button" id="editBtn" class="btn">
-                            <i class="bi bi-pencil me-1"></i>Edit
-                        </button>
-                        <button type="submit" id="saveBtn" class="btn" disabled>
-                            <i class="bi bi-check-lg me-1"></i>Save
+                    <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap pt-2 border-top border-secondary border-opacity-25">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" id="editBtn" class="btn">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </button>
+                            <button type="submit" id="saveBtn" class="btn" disabled>
+                                <i class="bi bi-check-lg me-1"></i>Save
+                            </button>
+                            <button type="button" id="cancelBtn" class="btn d-none">
+                                <i class="bi bi-x-lg me-1"></i>Cancel
+                            </button>
+                        </div>
+
+                        <button type="button" id="logoutBtn" class="btn">
+                            <i class="bi bi-box-arrow-right me-1"></i>Sign Out
                         </button>
                     </div>
                 </form>
