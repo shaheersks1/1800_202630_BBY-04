@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', sayHello);
 
 const new_file = document.getElementById("myfile")
 new_file.addEventListener("change", (p) => {
-  console.log("AHHHHHHHHHHHH")
   const file = p.target.files[0];
   if (file) {
     Papa.parse(file, {
