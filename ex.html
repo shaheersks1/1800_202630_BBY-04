@@ -37,6 +37,117 @@
       border: 1px solid #26262c;
       box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
+
+    .controls {
+      position: relative;
+      padding-top: 2.5rem; /* Gives breathing room for the top-right ? button */
+    }
+    .help-me-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      background: #1a1a1f !important;
+      color: #ffcb6a !important;
+      border: 1.5px solid #f27500 !important;
+      font-size: 1rem !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .help-me-btn:hover,
+    .help-me-btn[aria-expanded="true"] {
+      background: #f27500 !important;
+      color: #000000 !important;
+      transform: scale(1.05);
+    }
+    .hints-panel {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 1rem 1.25rem;
+      background: #18181d;
+      border: 1px solid #33333d;
+      border-left: 4px solid #f27500;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: #d4d4dc;
+    }
+    .hints-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffcb6a;
+      margin-bottom: 0.5rem;
+    }
+    .hints-close-btn {
+      background: transparent !important;
+      color: #b0b0ba !important;
+      padding: 0 6px !important;
+      font-size: 1.25rem !important;
+      line-height: 1 !important;
+    }
+    .hints-close-btn:hover {
+      color: #ffffff !important;
+    }
+    .hints-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .hints-list code {
+      color: #ffcb6a;
+      background: #24242b;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .intro-hint {
+      color: #b0b0ba;
+      margin-top: -0.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+    .input-step {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .step-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ffcb6a;
+    }
+    .field-hint {
+      font-size: 0.78rem;
+      color: #9a9aa6;
+      line-height: 1.35;
+      max-width: 280px;
+    }
+    .field-hint strong {
+      color: #f5f5f7;
+    }
+    .field-hint code {
+      color: #ffcb6a;
+      background: #1c1c22;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    .action-step {
+      justify-content: flex-end;
+    }
+    .status-ready {
+      color: #ffcb6a !important;
+    }
+
     input, #app-content button {
       padding: 10px 14px;
       border: 1px solid #2c2c34;
@@ -240,12 +351,66 @@
     </div>
 
     <h1>AI Schedule Optimizer</h1>
-    
+
     <div class="controls">
-      <input type="file" id="file-upload" accept=".png,.csv,.json" title="Select a PNG, CSV, or JSON file">
-      <input type="text" id="goal-input" placeholder="E.g., Train for 20km run" style="flex: 1;">
-      <input type="text" id="by-date" placeholder="By what date?" value="by: ">
-      <button id="generate-btn">Generate Schedule</button>
+      <!-- Circular Help-Me Button (Top-Right Corner) -->
+      <button
+        type="button"
+        id="help-hints-btn"
+        class="help-me-btn"
+        aria-expanded="false"
+        aria-controls="schedule-hints-panel"
+        aria-label="Show schedule hints"
+        title="How to use this tool"
+      >
+        ?
+      </button>
+
+      <!-- Step 1: Schedule File -->
+      <div class="input-step">
+        <label for="file-upload" class="step-label">1. Current Schedule (CSV or PNG)</label>
+        <input type="file" id="file-upload" accept=".png,.csv,.json" title="Select a CSV, PNG, or JSON file">
+        <small id="file-feedback" class="field-hint">
+          Upload a <strong>CSV file or PNG file</strong> to start.
+        </small>
+      </div>
+
+      <!-- Step 2: Goal -->
+      <div class="input-step" style="flex: 1; min-width: 220px;">
+        <label for="goal-input" class="step-label">2. Your Goal</label>
+        <input type="text" id="goal-input" placeholder="E.g., Run 5km 3x a week or practice piano 45m daily">
+      </div>
+
+      <!-- Step 3: Target Date -->
+      <div class="input-step">
+        <label for="by-date" class="step-label">3. Target Deadline</label>
+        <input type="text" id="by-date" placeholder="E.g., by: Dec 20, 2026" value="by: ">
+      </div>
+
+      <!-- Generate Action -->
+      <div class="input-step action-step">
+        <button id="generate-btn" type="button">Generate Schedule</button>
+        <small id="form-status" class="field-hint" aria-live="polite"></small>
+      </div>
+
+      <!-- Collapsible Hints Panel (Hidden until ? is clicked) -->
+      <div id="schedule-hints-panel" class="hints-panel" hidden>
+        <div class="hints-header">
+          <strong>Quick Guide: How to Create Your First Schedule</strong>
+          <button type="button" id="close-hints-btn" class="hints-close-btn" aria-label="Close hints">&times;</button>
+        </div>
+        <ul class="hints-list">
+          <li>
+            <strong>Schedule File (CSV or PNG):</strong> Upload a <strong>CSV file or PNG file</strong> (like a timetable export or screenshot of your work/class hours) so the AI knows when you're busy.
+          </li>
+          <li>
+            <strong>Goal:</strong> Describe what you want to achieve and your ideal pace (e.g., <em>"Train for a 10k"</em> or <em>"Study COMP 1510 1 hr/day"</em>).
+          </li>
+          <li>
+            <strong>Target Date:</strong> Fill in your deadline after <code>by:</code> (e.g., <code>by: 2026-12-15</code>) so tasks scale realistically over time.
+          </li>
+        </ul>
+      </div>
     </div>
     <a href="progress.html">Check Progress</a>
 
@@ -259,5 +424,36 @@
 
   <script type="module" src="/src/components/site-footer.js"></script>
   <script type="module" src="/src/ai_scheduler.js"></script>
+  <script>
+    const helpHintsBtn = document.getElementById('help-hints-btn');
+    const closeHintsBtn = document.getElementById('close-hints-btn');
+    const hintsPanel = document.getElementById('schedule-hints-panel');
+    const fileInput = document.getElementById('file-upload');
+    const fileFeedback = document.getElementById('file-feedback');
+
+    function setHintsOpen(isOpen) {
+      if (!hintsPanel || !helpHintsBtn) return;
+      hintsPanel.hidden = !isOpen;
+      helpHintsBtn.setAttribute('aria-expanded', String(isOpen));
+    }
+
+    helpHintsBtn?.addEventListener('click', () => {
+      const currentlyExpanded = helpHintsBtn.getAttribute('aria-expanded') === 'true';
+      setHintsOpen(!currentlyExpanded);
+    });
+
+    closeHintsBtn?.addEventListener('click', () => {
+      setHintsOpen(false);
+    });
+
+    fileInput?.addEventListener('change', () => {
+      const file = fileInput.files?.[0];
+      if (file) {
+        fileFeedback.innerHTML = `Selected <strong>${file.name}</strong>`;
+      } else {
+        fileFeedback.innerHTML = 'Upload a <strong>CSV file or PNG file</strong> to start.';
+      }
+    });
+  </script>
 </body>
 </html>
