@@ -368,16 +368,16 @@
 
       <!-- Step 1: Schedule File -->
       <div class="input-step">
-        <label for="file-upload" class="step-label">1. Current Schedule (CSV or PNG)</label>
+        <label for="file-upload" class="step-label">1. Current Schedule (CSV Recommended)</label>
         <input type="file" id="file-upload" accept=".png,.csv,.json" title="Select a CSV, PNG, or JSON file">
         <small id="file-feedback" class="field-hint">
-          Upload a <strong>CSV file or PNG file</strong> to start.
+          Upload a <strong>CSV file or Image file</strong> to start.
         </small>
       </div>
 
       <!-- Step 2: Goal -->
       <div class="input-step" style="flex: 1; min-width: 220px;">
-        <label for="goal-input" class="step-label">2. Your Goal</label>
+        <label for="goal-input" class="step-label">2. Your Goals</label>
         <input type="text" id="goal-input" placeholder="E.g., Run 5km 3x a week or practice piano 45m daily">
       </div>
 
@@ -401,13 +401,13 @@
         </div>
         <ul class="hints-list">
           <li>
-            <strong>Schedule File (CSV or PNG):</strong> Upload a <strong>CSV file or PNG file</strong> (like a timetable export or screenshot of your work/class hours) so the AI knows when you're busy.
+            <strong>Schedule File (CSV Recommended):</strong> Upload a <strong>CSV file or Image file</strong> (like a timetable export or screenshot of your work/class hours) so the AI knows when you're busy.
           </li>
           <li>
-            <strong>Goal:</strong> Describe what you want to achieve and your ideal pace (e.g., <em>"Train for a 10k"</em> or <em>"Study COMP 1510 1 hr/day"</em>).
+            <strong>Goals:</strong> Describe what you want to achieve and your ideal pace with commas in between to add more goals (e.g., <em>"Train for a 10k"</em> or <em>"Study COMP 1510 1 hr/day"</em>).
           </li>
           <li>
-            <strong>Target Date:</strong> Fill in your deadline after <code>by:</code> (e.g., <code>by: 2026-12-15</code>) so tasks scale realistically over time.
+            <strong>Target Date:</strong> Fill in day of the week for your deadline after <code>by:</code> (e.g., <code>by: Friday</code>) so tasks scale realistically over time.
           </li>
         </ul>
       </div>

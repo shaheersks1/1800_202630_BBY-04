@@ -80,13 +80,11 @@ class SiteFooter extends HTMLElement {
                     <i class="bi bi-calendar-event-fill"></i>
                     <small>Schedule</small>
                 </a>
-
-                <!-- Goals -->
-                <a class="schedulr-nav-item" data-pages="page_goal.html,page_one.html" href="${goalsHref}">
-                    <i class="bi bi-bullseye"></i>
-                    <small>Goals</small>
+                <!-- Profile -->
+                <a class="schedulr-nav-item" data-pages="profile.html" href="profile.html">
+                    <i class="bi bi-person-fill"></i>
+                    <small>Profile</small>
                 </a>
-
             </div>
         </nav>
         `;
