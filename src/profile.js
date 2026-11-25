@@ -1,11 +1,13 @@
-import { db } from "./firebaseConfig.js";
+import { auth, db } from "./firebaseConfig.js";
 import { onAuthReady } from "./authentication.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 // The fields we store in Firestore (email comes from Auth, not from here)
 const fields = ["name", "country", "school", "bio"];
 let currentUser = null;
 let favourites = [];      // used in Part 3
+let originalValues = {};
 
 onAuthReady(async function (user) {
     if (!user) {
@@ -23,50 +25,91 @@ onAuthReady(async function (user) {
 
         // 3. Pre-populate each input (empty string if the field doesn't exist yet)
         fields.forEach(field => {
-            document.getElementById(field + "Input").value = data[field] || "";
+            const val = data[field] || "";
+            document.getElementById(field + "Input").value = val;
+            originalValues[field] = val;
         });
     }
 });
 
 // Fill the header: first letter in the circle, name, email
 function showHeader(name, email) {
-    document.getElementById("avatar").textContent = name.charAt(0).toUpperCase(); //Get the first letter of the name in uppercase (e.g. "elmo" → "E")
-    document.getElementById("profileName").textContent = name;
+    const displayName = name || email || "User";
+    document.getElementById("avatar").textContent = displayName.charAt(0).toUpperCase();
+    document.getElementById("profileName").textContent = displayName;
     document.getElementById("profileEmail").textContent = email;
-};
-// ---- (1) What to do when Edit is clicked ----
+}
+
+// ---- Edit mode ----
 function enableEdit() {
-    fields.forEach(field => document.getElementById(field + "Input").disabled = false);
+    fields.forEach(field => {
+        const input = document.getElementById(field + "Input");
+        originalValues[field] = input.value;
+        input.disabled = false;
+    });
+
     document.getElementById("saveBtn").disabled = false;
+    document.getElementById("cancelBtn").classList.remove("d-none");
+    document.getElementById("editBtn").classList.add("d-none");
     document.getElementById("nameInput").focus();
-};
+}
 
-// ---- (2) Connect it to the button ----
+// ---- Cancel edit ----
+function cancelEdit() {
+    fields.forEach(field => {
+        const input = document.getElementById(field + "Input");
+        input.value = originalValues[field] ?? "";
+        input.disabled = true;
+    });
+
+    document.getElementById("saveBtn").disabled = true;
+    document.getElementById("cancelBtn").classList.add("d-none");
+    document.getElementById("editBtn").classList.remove("d-none");
+}
+
 document.getElementById("editBtn").addEventListener("click", enableEdit);
-    // ---- (1) What to do when the profile form is submitted ----
-    async function saveProfile(event) {
-        event.preventDefault();
+document.getElementById("cancelBtn").addEventListener("click", cancelEdit);
 
-        // Build an object from the inputs: { name: "...", country: "...", school: "...", bio: "..." }
-        const updates = {};
+// ---- Save profile ----
+async function saveProfile(event) {
+    event.preventDefault();
+
+    const updates = {};
+    fields.forEach(field => {
+        updates[field] = document.getElementById(field + "Input").value;
+    });
+
+    try {
+        await updateDoc(doc(db, "users", currentUser.uid), updates);
+
         fields.forEach(field => {
-            updates[field] = document.getElementById(field + "Input").value;
+            originalValues[field] = updates[field];
+            document.getElementById(field + "Input").disabled = true;
         });
 
-        try {
-            await updateDoc(doc(db, "users", currentUser.uid), updates);
+        document.getElementById("saveBtn").disabled = true;
+        document.getElementById("cancelBtn").classList.add("d-none");
+        document.getElementById("editBtn").classList.remove("d-none");
 
-            // Lock the form again, refresh the header, show a confirmation
-            fields.forEach(field => document.getElementById(field + "Input").disabled = true);
-            document.getElementById("saveBtn").disabled = true;
-            showHeader(updates.name, currentUser.email);
-            const alertBox = document.getElementById("profileAlert");
-            alertBox.textContent = "Profile saved!";
-            alertBox.classList.remove("d-none");
-        } catch (error) {
-            alert(`Error saving profile:\n${error.code || ""}\n${error.message || error}`);
-        }
+        showHeader(updates.name, currentUser.email);
+        const alertBox = document.getElementById("profileAlert");
+        alertBox.textContent = "Profile saved!";
+        alertBox.classList.remove("d-none");
+    } catch (error) {
+        alert(`Error saving profile:\n${error.code || ""}\n${error.message || error}`);
     }
+}
 
-    // ---- (2) Connect it to the form ----
-    document.getElementById("profileForm").addEventListener("submit", saveProfile);
+document.getElementById("profileForm").addEventListener("submit", saveProfile);
+
+// ---- Sign out ----
+async function handleLogout() {
+    try {
+        await signOut(auth);
+        location.href = "index.html";
+    } catch (error) {
+        alert(`Error signing out:\n${error.code || ""}\n${error.message || error}`);
+    }
+}
+
+document.getElementById("logoutBtn").addEventListener("click", handleLogout);

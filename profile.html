@@ -2,80 +2,232 @@
 <html lang="en">
 
 <head>
-    <title>My BCIT Project</title>
-    <meta name="comp1800 template" content="My 1800 App">
+    <title>Schedulr - My Profile</title>
+    <meta name="comp1800 template" content="Schedulr App">
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap CSS & Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <!-- Web Components for shared navbar and footer layout -->
     <script type="module" src="/src/components/site-navbar.js"></script>
     <script type="module" src="/src/components/site-footer.js"></script>
+
+    <style>
+        body {
+            background-color: #121212 !important;
+            color: #f5f5f7;
+            min-height: 100vh;
+            padding-bottom: 6rem;
+        }
+
+        .container,
+        .container-fluid {
+            background-color: transparent !important;
+        }
+
+        .card.profile-card,
+        .card.profile-card .card-body {
+            background-color: #1E1E1E !important;
+            color: #f5f5f7 !important;
+        }
+
+        .card.profile-card {
+            border: 1px solid #2e2e2e !important;
+            border-radius: 16px !important;
+        }
+
+        .schedulr-avatar {
+            width: 68px;
+            height: 68px;
+            background-color: #f49d0c;
+            color: #121212;
+            font-size: 1.75rem;
+            font-weight: 800;
+            box-shadow: 0 4px 14px rgba(244, 157, 12, 0.25);
+        }
+
+        #profileEmail {
+            color: #a8a8b2;
+            font-size: 0.9rem;
+        }
+
+        .form-label {
+            color: #e0e0e6 !important;
+            font-weight: 600;
+            font-size: 0.88rem;
+        }
+
+        .schedulr-field {
+            background-color: #262626 !important;
+            color: #ffffff !important;
+            border: 1px solid #3c3c3c !important;
+            border-radius: 8px;
+            padding: 10px 14px;
+        }
+
+        .schedulr-field::placeholder {
+            color: #8c8c96 !important;
+            opacity: 1;
+        }
+
+        .schedulr-field:disabled {
+            background-color: #191919 !important;
+            color: #b5b5be !important;
+            border-color: #2a2a2a !important;
+            opacity: 1;
+        }
+
+        .schedulr-field:focus {
+            border-color: #f49d0c !important;
+            box-shadow: 0 0 0 0.2rem rgba(244, 157, 12, 0.22) !important;
+            outline: none;
+        }
+
+        #editBtn {
+            background-color: transparent;
+            color: #f49d0c;
+            border: 1.5px solid #f49d0c;
+            border-radius: 999px;
+            padding: 8px 20px;
+            font-weight: 600;
+        }
+
+        #editBtn:hover {
+            background-color: rgba(244, 157, 12, 0.14);
+            color: #ffae24;
+        }
+
+        #saveBtn {
+            background-color: #f49d0c;
+            color: #121212;
+            border: none;
+            border-radius: 999px;
+            padding: 8px 22px;
+            font-weight: 700;
+        }
+
+        #saveBtn:hover:not(:disabled) {
+            background-color: #ffae24;
+            color: #121212;
+        }
+
+        #saveBtn:disabled {
+            background-color: #2c2c32;
+            color: #777780;
+            opacity: 0.8;
+        }
+
+        #cancelBtn {
+            background-color: transparent;
+            color: #b5b5be;
+            border: 1px solid #44444c;
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-weight: 600;
+        }
+
+        #cancelBtn:hover {
+            background-color: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        #logoutBtn {
+            background-color: transparent;
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.45);
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-weight: 600;
+        }
+
+        #logoutBtn:hover {
+            background-color: rgba(255, 107, 107, 0.14);
+            color: #ff8787;
+            border-color: #ff6b6b;
+        }
+    </style>
 </head>
 
-<body>
-    <!------------------------------>
-    <!-- Your HTML Layout go here -->
-    <!------------------------------>
+<body class="d-flex flex-column min-vh-100 m-0">
 
-    <!-- our own navbar goes here -->
-    <site-navbar></site-navbar>
+    <!-- Matching Top Brand Bar -->
+    <nav class="navbar navbar-dark px-4 py-3 border-bottom border-secondary" style="background-color: #1a1a1a !important;">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold text-white d-flex align-items-center" href="main.html">
+                <i class="bi bi-calendar-check-fill me-2 fs-4" style="color: #f49d0c;"></i>Schedulr<span style="color: #f49d0c;">.</span>
+            </a>
+        </div>
+    </nav>
 
-    <!-- Main content goes here -->
-    <main class="container py-4" style="max-width: 720px;">
+    <!-- Main Content -->
+    <main class="container py-4 my-auto" style="max-width: 720px;">
 
-        <!-- Header: avatar + name + email -->
+        <!-- Header: Avatar + Name + Email -->
         <div class="d-flex align-items-center gap-3 mb-4">
-            <div id="avatar"
-                class="rounded-circle bg-warning fw-bold fs-3 d-flex align-items-center justify-content-center"
-                style="width: 64px; height: 64px;">?</div>
+            <div id="avatar" class="rounded-circle schedulr-avatar d-flex align-items-center justify-content-center">?</div>
             <div>
-                <h1 id="profileName" class="h3 mb-0">My profile</h1>
-                <small id="profileEmail" class="text-muted"></small>
+                <h1 id="profileName" class="h3 fw-bold text-white mb-0">My profile</h1>
+                <small id="profileEmail"></small>
             </div>
         </div>
 
-        <!-- Section 1: About me -->
-        <div class="card shadow-sm mb-5">
-            <div class="card-body">
-                <h2 class="h5 card-title mb-3"><i class="bi bi-person-fill me-1"></i>About me</h2>
-                <div id="profileAlert" class="alert alert-success d-none" role="alert"></div>
+        <!-- Section 1: About Me -->
+        <div class="card profile-card shadow-lg mb-4">
+            <div class="card-body p-4 p-md-5">
+                <h2 class="h5 fw-bold mb-3" style="color: #f49d0c;">
+                    <i class="bi bi-person-fill me-2"></i>About me
+                </h2>
+
+                <div id="profileAlert" class="alert alert-success d-none rounded-3 py-2" role="alert"></div>
 
                 <form id="profileForm" novalidate>
                     <div class="mb-3">
                         <label for="nameInput" class="form-label">Name</label>
-                        <input type="text" id="nameInput" class="form-control" disabled />
+                        <input type="text" id="nameInput" class="form-control schedulr-field" placeholder="Your full name" disabled />
                     </div>
                     <div class="mb-3">
                         <label for="countryInput" class="form-label">Country</label>
-                        <input type="text" id="countryInput" class="form-control" disabled />
+                        <input type="text" id="countryInput" class="form-control schedulr-field" placeholder="e.g., Canada" disabled />
                     </div>
                     <div class="mb-3">
-                        <label for="schoolInput" class="form-label">School</label>
-                        <input type="text" id="schoolInput" class="form-control" disabled />
+                        <label for="schoolInput" class="form-label">School / Workplace</label>
+                        <input type="text" id="schoolInput" class="form-control schedulr-field" placeholder="e.g., BCIT" disabled />
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-4">
                         <label for="bioInput" class="form-label">About me</label>
-                        <textarea id="bioInput" class="form-control" rows="3" disabled></textarea>
+                        <textarea id="bioInput" class="form-control schedulr-field" rows="3" placeholder="Share a quick note about your routine or goals..." disabled></textarea>
                     </div>
-                    <button type="button" id="editBtn" class="btn btn-outline-secondary">
-                        <i class="bi bi-pencil me-1"></i>Edit
-                    </button>
-                    <button type="submit" id="saveBtn" class="btn btn-success" disabled>
-                        <i class="bi bi-check-lg me-1"></i>Save
-                    </button>
+
+                    <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap pt-2 border-top border-secondary border-opacity-25">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" id="editBtn" class="btn">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </button>
+                            <button type="submit" id="saveBtn" class="btn" disabled>
+                                <i class="bi bi-check-lg me-1"></i>Save
+                            </button>
+                            <button type="button" id="cancelBtn" class="btn d-none">
+                                <i class="bi bi-x-lg me-1"></i>Cancel
+                            </button>
+                        </div>
+
+                        <button type="button" id="logoutBtn" class="btn">
+                            <i class="bi bi-box-arrow-right me-1"></i>Sign Out
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
-    </main>
-    <!-- our own footer goes here -->
-    <site-footer></site-footer>
-    
 
-    <!---------------------------------------------->
-    <!-- Your own JavaScript scripts go here      -->
-    <!---------------------------------------------->
+    </main>
+
+    <!-- Shared Bottom Navbar / Footer Component -->
+    <site-footer></site-footer>
 
     <script type="module" src="/src/app.js"></script>
     <script type="module" src="/src/profile.js"></script>

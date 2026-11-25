@@ -3,15 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Organize Your Life</title>
+  <title>Schedulr - AI Schedule Optimizer</title>
+  <!-- Bootstrap CSS & Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   <style>
     body {
       font-family: system-ui, -apple-system, sans-serif;
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+      margin: 0;
+      padding: 0 0 6rem 0; /* Extra bottom padding so fixed-bottom navbar doesn't overlap content */
       color: #f5f5f7;
-      background: #000000;
+      background-color: #121212 !important;
+      min-height: 100vh;
+    }
+    .page-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem 0 1rem;
     }
     h1, h2 {
       color: #ffffff;
@@ -20,124 +29,242 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      gap: 12px;
+      flex-wrap: wrap;
     }
     .controls {
+      position: relative;
       display: flex;
-      gap: 10px;
-      margin-bottom: 2rem;
+      gap: 14px;
+      margin-bottom: 1.5rem;
       flex-wrap: wrap;
-      background: #121215;
-      padding: 1.5rem;
-      border-radius: 8px;
-      border: 1px solid #26262c;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      align-items: flex-start;
+      background: #1E1E1E;
+      padding: 2.5rem 1.5rem 1.5rem 1.5rem; /* Extra top padding for the top-right ? button */
+      border-radius: 14px;
+      border: 1px solid #2e2e2e;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
     }
-    input, button {
+
+    .help-me-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      background: #1a1a1a !important;
+      color: #f49d0c !important;
+      border: 1.5px solid #f49d0c !important;
+      font-size: 1rem !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .help-me-btn:hover,
+    .help-me-btn[aria-expanded="true"] {
+      background: #f49d0c !important;
+      color: #121212 !important;
+      transform: scale(1.05);
+    }
+    .hints-panel {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 1rem 1.25rem;
+      background: #171717;
+      border: 1px solid #333333;
+      border-left: 4px solid #f49d0c;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: #d4d4dc;
+    }
+    .hints-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #f49d0c;
+      margin-bottom: 0.5rem;
+    }
+    .hints-close-btn {
+      background: transparent !important;
+      color: #b0b0ba !important;
+      padding: 0 6px !important;
+      font-size: 1.25rem !important;
+      line-height: 1 !important;
+    }
+    .hints-close-btn:hover {
+      color: #ffffff !important;
+    }
+    .hints-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .hints-list code {
+      color: #ffcb6a;
+      background: #24242b;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .intro-hint {
+      color: #b0b0ba;
+      margin-top: -0.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+    }
+    .input-step {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .step-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #f49d0c;
+    }
+    .field-hint {
+      font-size: 0.78rem;
+      color: #a0a0aa;
+      line-height: 1.35;
+      max-width: 280px;
+    }
+    .field-hint strong {
+      color: #ffffff;
+    }
+    .field-hint code {
+      color: #ffcb6a;
+      background: #1c1c22;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    .action-step {
+      justify-content: flex-end;
+    }
+    .status-ready {
+      color: #f49d0c !important;
+    }
+
+    input, #app-content button {
       padding: 10px 14px;
-      border: 1px solid #2c2c34;
-      border-radius: 6px;
-      font-size: 1rem;
+      border: 1px solid #383838;
+      border-radius: 8px;
+      font-size: 0.95rem;
     }
     input {
-      background: #1a1a1f;
-      color: #f5f5f7;
+      background: #262626;
+      color: #ffffff;
     }
     input::placeholder {
-      color: #777;
+      color: #8c8c96;
     }
     input:focus {
       outline: none;
-      border-color: #f27500;
+      border-color: #f49d0c;
+      box-shadow: 0 0 0 0.2rem rgba(244, 157, 12, 0.2);
     }
     input[type="file"]::file-selector-button {
-      background: #24242b;
-      color: #ffcb6a;
-      border: 1px solid #33333d;
+      background: #1a1a1a;
+      color: #f49d0c;
+      border: 1px solid #444444;
       padding: 6px 12px;
-      border-radius: 4px;
+      border-radius: 6px;
       margin-right: 10px;
       cursor: pointer;
+      font-weight: 600;
     }
-    button {
-      background: #f27500;
-      color: white;
+    #app-content button {
+      background: #f49d0c;
+      color: #121212;
       border: none;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 700;
+      transition: background 0.2s ease, transform 0.15s ease;
     }
-    button:hover { background: #ff9500; }
-    button:disabled { background: #2c2c34; color: #666; cursor: not-allowed; }
+    #app-content button:hover { background: #ffae24; }
+    #app-content button:disabled { background: #2c2c34; color: #666; cursor: not-allowed; }
 
-    a {
-      color: #ffcb6a;
+    a.progress-link {
+      display: inline-block;
+      margin-bottom: 1.25rem;
+      color: #f49d0c;
       text-decoration: none;
       font-weight: 600;
     }
-    a:hover {
-      color: #f27500;
+    a.progress-link:hover {
+      color: #ffcb6a;
       text-decoration: underline;
     }
-    
+
     /* Header & Progress Bar */
     .schedule-header { margin-bottom: 1.5rem; }
     .progress-container {
-      background: #121215;
+      background: #1E1E1E;
       padding: 1.5rem;
-      border-radius: 8px;
-      border: 1px solid #26262c;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      border-radius: 12px;
+      border: 1px solid #2e2e2e;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       margin-top: 1rem;
     }
     .progress-bar-bg {
       width: 100%;
       height: 12px;
-      background: #24242b;
+      background: #2a2a2a;
       border-radius: 10px;
       overflow: hidden;
       margin-bottom: 0.5rem;
     }
     .progress-bar-fill {
       height: 100%;
-      background: #f27500;
+      background: #f49d0c;
       width: 0%;
       transition: width 0.4s ease;
     }
-    #goal-progress-text { margin: 0; font-size: 0.9rem; color: #a0a0aa; font-weight: 500; }
+    #goal-progress-text { margin: 0; font-size: 0.9rem; color: #b0b0ba; font-weight: 500; }
 
     /* Filters */
     .filter-container {
       display: flex;
       gap: 10px;
       margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
     .filter-btn {
-      background: #121215;
-      color: #b0b0ba;
-      border: 1px solid #2c2c34;
+      background: #1E1E1E !important;
+      color: #b0b0ba !important;
+      border: 1px solid #333333 !important;
     }
     .filter-btn:hover {
-      background: #1e1e24;
-      color: #ffffff;
+      background: #262626 !important;
+      color: #ffffff !important;
     }
     .filter-btn.active {
-      background: #f27500;
-      color: #ffffff;
-      border-color: #f27500;
+      background: #f49d0c !important;
+      color: #121212 !important;
+      border-color: #f49d0c !important;
     }
 
     /* Weekly Calendar Layout */
     .calendar-wrapper {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       overflow-x: auto;
       padding-bottom: 15px;
     }
     .calendar-col {
       flex: 1;
-      min-width: 150px;
-      background: #121215;
-      border-radius: 8px;
+      min-width: 155px;
+      background: #1E1E1E;
+      border: 1px solid #2e2e2e;
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
     }
@@ -145,10 +272,10 @@
       text-align: center;
       padding: 12px 10px;
       font-weight: bold;
-      color: #ffcb6a;
-      background: #1c1c21;
-      border-radius: 8px 8px 0 0;
-      border-bottom: 1px solid #2a2a32;
+      color: #f49d0c;
+      background: #171717;
+      border-radius: 10px 10px 0 0;
+      border-bottom: 1px solid #2e2e2e;
     }
     .calendar-events {
       padding: 10px;
@@ -157,14 +284,14 @@
       gap: 10px;
       min-height: 200px;
     }
-    
+
     /* Event Blocks inside Calendar */
     .cal-event {
       padding: 10px;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 0.9rem;
       border-left: 4px solid;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
       position: relative;
     }
     .time-label {
@@ -174,7 +301,7 @@
       display: block;
       margin-bottom: 4px;
     }
-    .task-desc { margin: 0 0 6px 0; line-height: 1.3; color: #f5f5f7; }
+    .task-desc { margin: 0 0 6px 0; line-height: 1.35; color: #f5f5f7; }
     .cat-label {
       font-size: 0.7rem;
       text-transform: uppercase;
@@ -186,35 +313,35 @@
 
     /* Static Events (School/Work) */
     .cal-event.static {
-      background: #1c1c21;
+      background: #252529;
       border-left-color: #7d776c;
     }
     .cal-event.static .time-label {
-      color: #a0a0aa;
+      color: #b0b0ba;
     }
 
     /* Interactive Events (Goal Tasks) */
     .cal-event.interactive {
-      background: #24170a;
-      border-left-color: #f79000;
+      background: #2a1a0b;
+      border-left-color: #f49d0c;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .cal-event.interactive:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(242,117,0,0.2); }
+    .cal-event.interactive:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(244,157,12,0.22); }
     .cal-event.interactive::after {
       content: '○';
       position: absolute;
       top: 10px;
       right: 10px;
       font-size: 1.1rem;
-      color: #ffb700;
+      color: #f49d0c;
     }
-    
+
     /* Interactive Completed State */
     .cal-event.interactive.completed {
       background: #102416;
       border-left-color: #28a745;
-      opacity: 0.7;
+      opacity: 0.75;
     }
     .cal-event.interactive.completed .task-desc { text-decoration: line-through; color: #888; }
     .cal-event.interactive.completed .time-label { color: #28a745; }
@@ -222,34 +349,134 @@
   </style>
 </head>
 <body>
-  <div id="auth-loading" style="text-align: center; margin-top: 4rem; color: #a0a0aa;">
-    <p>Loading your account...</p>
-  </div>
+  <!-- Matching Top Brand Bar -->
+  <nav class="navbar navbar-dark px-4 py-3 border-bottom border-secondary" style="background-color: #1a1a1a !important;">
+    <div class="container-fluid" style="background-color: transparent !important;">
+      <a class="navbar-brand fw-bold text-white d-flex align-items-center" href="main.html">
+        <i class="bi bi-calendar-check-fill me-2 fs-4" style="color: #f49d0c;"></i>Schedulr<span style="color: #f49d0c;">.</span>
+      </a>
+    </div>
+  </nav>
 
-  <div id="app-content" style="display: none;">
-    <div class="top-bar">
-      <span id="user-greeting" style="font-weight: 600; color: #a0a0aa;"></span>
-      <div style="display: flex; gap: 10px;">
-        <button onclick="window.location.href='main.html'" style="background: #f27500;">Home</button>
-        <button id="logout-btn" style="background: #ffcb6a; color: #000000;">Logout</button>
+  <div class="page-shell">
+    <div id="auth-loading" style="text-align: center; margin-top: 4rem; color: #a0a0aa;">
+      <p>Loading your account...</p>
+    </div>
+
+    <div id="app-content" style="display: none;">
+      <div class="top-bar">
+        <span id="user-greeting" style="font-weight: 600; color: #b0b0ba;"></span>
+        <div style="display: flex; gap: 10px;">
+          <button onclick="window.location.href='main.html'" style="background: #f49d0c; color: #121212;">Home</button>
+          <button id="logout-btn" style="background: #262626; color: #f49d0c; border: 1px solid #f49d0c !important;">Logout</button>
+        </div>
+      </div>
+
+      <h1 class="fw-bold mb-3">AI Schedule Optimizer</h1>
+
+      <div class="controls">
+        <!-- Circular Help-Me Button (Top-Right Corner) -->
+        <button
+          type="button"
+          id="help-hints-btn"
+          class="help-me-btn"
+          aria-expanded="false"
+          aria-controls="schedule-hints-panel"
+          aria-label="Show schedule hints"
+          title="How to use this tool"
+        >
+          ?
+        </button>
+
+        <!-- Step 1: Schedule File -->
+        <div class="input-step">
+          <label for="file-upload" class="step-label">1. Current Schedule (CSV Recommended)</label>
+          <input type="file" id="file-upload" accept=".png,.csv,.json" title="Select a CSV, PNG, or JSON file">
+          <small id="file-feedback" class="field-hint">
+            Upload a <strong>CSV file or Image file</strong> to start.
+          </small>
+        </div>
+
+        <!-- Step 2: Goal -->
+        <div class="input-step" style="flex: 1; min-width: 220px;">
+          <label for="goal-input" class="step-label">2. Your Goals</label>
+          <input type="text" id="goal-input" placeholder="E.g., Run 5km 3x a week or practice piano 45m daily">
+        </div>
+
+        <!-- Step 3: Target Date -->
+        <div class="input-step">
+          <label for="by-date" class="step-label">3. Target Deadline</label>
+          <input type="text" id="by-date" placeholder="E.g., by: Dec 20, 2026" value="by: ">
+        </div>
+
+        <!-- Generate Action -->
+        <div class="input-step action-step">
+          <button id="generate-btn" type="button">Generate Schedule</button>
+          <small id="form-status" class="field-hint" aria-live="polite"></small>
+        </div>
+
+        <!-- Collapsible Hints Panel (Hidden until ? is clicked) -->
+        <div id="schedule-hints-panel" class="hints-panel" hidden>
+          <div class="hints-header">
+            <strong>Quick Guide: How to Create Your First Schedule</strong>
+            <button type="button" id="close-hints-btn" class="hints-close-btn" aria-label="Close hints">&times;</button>
+          </div>
+          <ul class="hints-list">
+            <li>
+              <strong>Schedule File (CSV Recommended):</strong> Upload a <strong>CSV file or Image file</strong> (like a timetable export or screenshot of your work/class hours) so the AI knows when you're busy.
+            </li>
+            <li>
+              <strong>Goals:</strong> Describe what you want to achieve and your ideal pace with commas in between to add more goals (e.g., <em>"Train for a 10k"</em> or <em>"Study COMP 1510 1 hr/day"</em>).
+            </li>
+            <li>
+              <strong>Target Date:</strong> Fill in day of the week for your deadline after <code>by:</code> (e.g., <code>by: Friday</code>) so tasks scale realistically over time.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <a href="progress.html" class="progress-link">Check Progress &rarr;</a>
+
+      <div id="scheduleContainer">
+        <p style="color: #8c8c96;">Upload your schedule and set a goal to begin.</p>
       </div>
     </div>
-
-    <h1>AI Schedule Optimizer</h1>
-    
-    <div class="controls">
-      <input type="file" id="file-upload" accept=".png,.csv,.json" title="Select a PNG, CSV, or JSON file">
-      <input type="text" id="goal-input" placeholder="E.g., Train for 20km run" style="flex: 1;">
-      <input type="text" id="by-date" placeholder="By what date?" value="by: ">
-      <button id="generate-btn">Generate Schedule</button>
-    </div>
-    <a href="progress.html">Check Progress</a>
-
-    <div id="scheduleContainer">
-      <p style="color: #888;">Upload your schedule and set a goal to begin.</p>
-    </div>
   </div>
 
+  <!-- Shared Bottom Navbar Component -->
+  <site-footer></site-footer>
+
+  <script type="module" src="/src/components/site-footer.js"></script>
   <script type="module" src="/src/ai_scheduler.js"></script>
+  <script>
+    const helpHintsBtn = document.getElementById('help-hints-btn');
+    const closeHintsBtn = document.getElementById('close-hints-btn');
+    const hintsPanel = document.getElementById('schedule-hints-panel');
+    const fileInput = document.getElementById('file-upload');
+    const fileFeedback = document.getElementById('file-feedback');
+
+    function setHintsOpen(isOpen) {
+      if (!hintsPanel || !helpHintsBtn) return;
+      hintsPanel.hidden = !isOpen;
+      helpHintsBtn.setAttribute('aria-expanded', String(isOpen));
+    }
+
+    helpHintsBtn?.addEventListener('click', () => {
+      const currentlyExpanded = helpHintsBtn.getAttribute('aria-expanded') === 'true';
+      setHintsOpen(!currentlyExpanded);
+    });
+
+    closeHintsBtn?.addEventListener('click', () => {
+      setHintsOpen(false);
+    });
+
+    fileInput?.addEventListener('change', () => {
+      const file = fileInput.files?.[0];
+      if (file) {
+        fileFeedback.innerHTML = `Selected <strong>${file.name}</strong>`;
+      } else {
+        fileFeedback.innerHTML = 'Upload a <strong>CSV file or PNG file</strong> to start.';
+      }
+    });
+  </script>
 </body>
 </html>
