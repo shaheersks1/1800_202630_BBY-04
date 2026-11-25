@@ -1,30 +1,31 @@
-# Elmo Hikes
+# Schedulr
 
 
 ## Overview
-Elmo Hikes is a client-side JavaScript web application that helps users discover and explore hiking trails. The app displays a curated list of hike trails, each with details such as name, location, difficulty, and an image. Users can browse the list and mark their favorite trails for easy access later.
+Schedulr is a web application that generates an optimized weekly schedule tailored around a user's existing commitments and specific goals. Users can sign up and log in, upload or provide their current schedule, enter actionable goals with target completion days, view an interactive weekly schedule, and track their progress.
 
-Developed for the COMP 1800 course, this project applies User-Centred Design practices and agile project management, and demonstrates integration with Firebase backend services for storing user favorites.
+Developed for the BCIT COMP 1800 (Projects 1) course, this project applies User-Centred Design practices and agile sprint workflows while integrating Firebase authentication and Firestore storage with AI-assisted schedule generation.
 
 ---
 
 
 ## Features
 
-- Browse a list of curated hiking trails with images and details
-- Mark and unmark trails as favorites
-- View a personalized list of favorite hikes
-- Responsive design for desktop and mobile
+- User sign-up and login with Firebase Authentication and user-scoped Firestore data
+- Schedule input and AI-assisted weekly schedule generation tailored around fixed commitments and specific goals with deadlines
+- Interactive schedule display with task completion tracking and progress overview
+- User profile management with editable details and sign-out support
+- Consistent dark-themed UI with shared web components (`site-navbar` and `site-footer`) and mobile-friendly navigation and layout
 
 ---
 
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, JavaScript
+- **Frontend**: HTML, CSS, Bootstrap 5, Bootstrap Icons, JavaScript (ES Modules), Web Components
 - **Build Tool**: [Vite](https://vitejs.dev/)
-- **Backend**: Firebase for hosting
-- **Database**: Firestore
+- **Backend & Auth**: Firebase Authentication, Gemini CLI
+- **Database**: Cloud Firestore
 
 ---
 
@@ -33,62 +34,76 @@ Developed for the COMP 1800 course, this project applies User-Centred Design pra
 
 To run the application locally:
 
-1.  **Clone** the repository.
-2.  **Install dependencies** by running `npm install` in the project root directory.
-3.  **Start the development server** by running the command: `npm run dev`.
-4.  Open your browser and visit the local address shown in your terminal (usually `http://localhost:5173` or similar).
+1. **Clone** the repository (`1800_202630_BBY-04`).
+2. **Install dependencies** by running `npm install` in the project root directory.
+3. **Configure environment variables** in `.env` as needed for your local setup.
+4. **Start the development server** by running: `npm run dev`.
+5. Open your browser and visit the local address shown in your terminal (usually `http://localhost:5173` or similar).
 
 Once the application is running:
 
-1.  Browse the list of hiking trails displayed on the main page.
-2.  Click the heart icon (or similar) to mark a trail as a favorite.
-3.  View your favorite hikes in the favorites section.
+1. Open the app (`index.html`) and sign up or log in (`login.html`).
+2. Navigate to the home view (`main.html`) or schedule view (`ex.html`).
+3. Provide your schedule file/data, enter specific goals and target day/deadline details, and generate your weekly schedule.
+4. Check off completed tasks and visit `progress.html` to view your progress, or visit `profile.html` to update your profile details.
 
 ---
 
 
 ## Project Structure
 
-```
-elmo-hikes/
-├── src/
-│   ├── main.js
-├── styles/
-│   └── style.css
-├── public/
+```text
+1800_202630_BBY-04/
 ├── images/
+├── src/
+│   ├── components/
+│   │   ├── site-footer.js
+│   │   └── site-navbar.js
+│   ├── ai_scheduler.js
+│   ├── app.js
+│   ├── authentication.js
+│   ├── firebaseConfig.js
+│   ├── goal.js
+│   ├── help.js
+│   ├── index.js
+│   ├── loginSignup.js
+│   ├── main.js
+│   ├── profile.js
+│   └── ui_renderer.js
+├── styles/
+│   ├── style.css
+│   ├── styleGoal.css
+│   └── styleLogin.css
+├── .env
+├── .gitignore
+├── ex.html
 ├── index.html
+├── login.html
+├── main.html
 ├── package.json
+├── package-lock.json
+├── page_goal.html
+├── page_one.html
+├── profile.html
+├── progress.html
 ├── README.md
+├── skeleton.html
+├── skeleton_page_prompts.html
+└── test.py
 ```
-
 ---
 
 
 ## Contributors
-- **Shaheer Khan** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Shaheer loves math.
-- **Jordan L** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
-- **Richard** - Richard - BCIT CST student who loves existing and living. Fun fact: I really love... Jesus. Another Fun fact: I've had 3 jobs so far.
-
-
-
-- **Richard**
-- **Your Name** - 
--my name is jordan lum i like to play minecraft and ride my scooter
-BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
-- **Teammate Name** - 
-shaheer and richard
-BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
-
---Richard - BCIT CST student who loves existing and living. Fun fact: I really love... Jesus.
---Jordan - BCIT CST student, the goat. Fun fact: First language is French, ohhooho!
-
+- **Shaheer Khan** - BCIT CST Student; focused on UI styling with Bootstrap, shared navigation components, user-facing page polish, user feedback and help options, and useful buttons.
+- **Jordan L** - BCIT CST Student; worked on authentication flows (sign-up/login) and database setup.
+- **Richard** - Richard - BCIT CST Student; worked on AI schedule generation integration, schedule/goal Firestore document handling, and progress tracking.
 
 ## Acknowledgments
 
-- Trail data and images are for demonstration purposes only.
-- Code snippets were adapted from resources such as [Stack Overflow](https://stackoverflow.com/) and [MDN Web Docs](https://developer.mozilla.org/).
-- Icons sourced from [FontAwesome](https://fontawesome.com/) and images from [Unsplash](https://unsplash.com/).
+- Built as part of BCIT COMP 1800 (Projects 1) coursework.
+- UI icons provided by Bootstrap Icons.
+- Reference documentation from MDN Web Docs, Bootstrap, and Firebase.
 
 ---
 
@@ -96,14 +111,14 @@ BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact
 ## Limitations and Future Work
 ### Limitations
 
-- Limited trail details (e.g., no live trail conditions).
-- Accessibility features can be further improved.
+- Vague or overly broad goals (such as open-ended long-term ambitions without clear milestones) do not translate cleanly into concrete weekly schedule blocks, so goals work best when phrased with precision and specificity.
+- Some page filenames and prototype/helper files (such as ex.html, main.html, page_one.html, and skeleton.html) are still transitioning toward final naming and cleanup.
 
 ### Future Work
 
-- Implement map view and trailhead directions.
-- Add filtering and sorting options (e.g., by difficulty, distance).
-- Create a dark mode for better usability in low-light conditions.
+- Standardize page naming (such as schedule.html and home.html) and clean up unused prototype files.
+- Expand schedule file parsing support (CSV, images/PNGs, and structured formats) and further refine prompt guidance for specific, achievable goals.
+- Continue expanding progress analytics, profile preferences, and overall UI polish.
 
 ---
 
